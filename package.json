@@ -11,10 +11,10 @@
     "check:watch": "svelte-check --tsconfig ./jsconfig.json --watch",
     "lint": "prettier --check --plugin-search-dir=. . && eslint .",
     "format": "prettier --write --plugin-search-dir=. .",
-    "deploy": "gh-pages -d dist"
+    "deploy": "rm -rf node_modules/.cache && rm -rf dist && npm run build && touch dist/.nojekyll && gh-pages -d dist -t true"
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "next",
+    "@sveltejs/adapter-static": "^1.0.0-next.34",
     "@sveltejs/kit": "next",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.3.0",

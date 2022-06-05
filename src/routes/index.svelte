@@ -29,6 +29,7 @@
 		degreesLong,
 		degreesLat
 	} from 'satellite.js';
+	import { dev } from '$app/env';
 
 	const textureEarth = useTexture('8081_earthmap2k.jpg', {
 		onError: (error) => {
@@ -60,6 +61,8 @@
 
 	// src : https://www.celestrak.com/NORAD/elements/gp.php?GROUP=galileo&FORMAT=tle
 	import galileoSatellites from '../../static/tle/galileo.json?raw';
+	import { base } from '$app/paths';
+
 	let satellitesJson = JSON.parse(galileoSatellites);
 	async function rotateCloud() {
 		rotY += 1 / 256;
@@ -145,6 +148,14 @@
 			return '#6600cc';
 		}
 	}
+
+	function getModelUrl() {
+		if (dev) {
+			return '/models/galileo.glb';
+		} else {
+			return `${base}/models/galileo.glb`;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -203,7 +214,7 @@
 			{#if s.pos != null}
 				<GLTF
 					scale={getScale(indexSelectedSatellites, s.id)}
-					url="/models/galileo.glb"
+					url={getModelUrl()}
 					position={{ x: s.pos[predLength].x, y: s.pos[predLength].y, z: s.pos[predLength].z }}
 					rotation={new Euler(0, s.pos[predLength].theta, s.pos[predLength].phi)}
 					interactive
